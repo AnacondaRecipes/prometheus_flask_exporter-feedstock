@@ -1,5 +1,6 @@
 {% set name = "prometheus_flask_exporter" %}
-{% set version = "0.20.3" %}
+{% set version = "0.21.0" %}
+{% set sha256 = "ebbc016c1e3d16e7cd39fe651a6c52ac68779858b2d5d1be6ddbc9e66f7fc29f" %}
 
 package:
   name: {{ name|lower }}
@@ -7,19 +8,21 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 480ad73730e06ac6f6f45913595a588ce84811b6aaf11ff9532e530512e9d13d
+  sha256: {{ sha256 }}
 
 build:
   number: 0
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv
+  skip: true  # [py<36]
 
 requirements:
   host:
     - pip
-    - python >=3.6
+    - python
+    - setuptools
+    - wheel
   run:
-    - python >=3.6
+    - python
     - flask
     - prometheus_client
 
@@ -33,10 +36,17 @@ test:
 
 about:
   home: https://github.com/rycus86/prometheus_flask_exporter
+  summary: Prometheus metrics exporter for Flask
+  description: |
+    This library provides HTTP request metrics to export into Prometheus.
+    It can also track method invocations using convenient functions.
   license: MIT
   license_family: MIT
   license_file: LICENSE
-  summary: Prometheus metrics exporter for Flask
+  license_url: https://github.com/rycus86/prometheus_flask_exporter/blob/master/LICENSE
+  dev_url: https://github.com/rycus86/prometheus_flask_exporter
+  doc_url: https://github.com/rycus86/prometheus_flask_exporter/blob/master/README.md
+  doc_source_url: https://github.com/rycus86/prometheus_flask_exporter/blob/master/README.md
 
 extra:
   recipe-maintainers:
