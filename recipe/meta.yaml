@@ -1,6 +1,6 @@
 {% set name = "prometheus_flask_exporter" %}
-{% set version = "0.21.0" %}
-{% set sha256 = "ebbc016c1e3d16e7cd39fe651a6c52ac68779858b2d5d1be6ddbc9e66f7fc29f" %}
+{% set version = "0.22.4" %}
+{% set sha256 = "959b69f1e740b6736ea53fe5f28dc2ab6229b2ebeade6582b3dbb5d74c7d58e4" %}
 
 package:
   name: {{ name|lower }}
@@ -12,7 +12,7 @@ source:
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   skip: true  # [py<36]
 
 requirements:
@@ -43,10 +43,8 @@ about:
   license: MIT
   license_family: MIT
   license_file: LICENSE
-  license_url: https://github.com/rycus86/prometheus_flask_exporter/blob/master/LICENSE
   dev_url: https://github.com/rycus86/prometheus_flask_exporter
   doc_url: https://github.com/rycus86/prometheus_flask_exporter/blob/master/README.md
-  doc_source_url: https://github.com/rycus86/prometheus_flask_exporter/blob/master/README.md
 
 extra:
   recipe-maintainers:
