@@ -28,6 +28,14 @@ requirements:
     - werkzeug>=3.0.1
     - zipp>=3.19.1
 
+# E       ValueError: one of env PROMETHEUS_MULTIPROC_DIR or env prometheus_multiproc_dir must be set and be a directory
+{% set skip_windows_tests = [
+  "--deselect=tests/test_extensions.py::ExtensionsTest::test_prometheus_multiproc_env_var_change",
+  "--deselect=tests/test_extensions.py::ExtensionsTest::test_with_defaults",
+  "--deselect=tests/test_extensions.py::ExtensionsTest::test_with_other_parameters",
+  "--deselect=tests/test_extensions.py::ExtensionsTest::test_with_registry"
+]%}
+
 test:
   source_files:
     - tests
@@ -38,7 +46,7 @@ test:
     - pytest
   commands:
     - pip check
-    - pytest -v tests
+    - pytest -v tests {{ skip_windows_tests | join (" ")}}
 
 about:
   home: https://github.com/rycus86/prometheus_flask_exporter
