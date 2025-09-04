@@ -1,19 +1,18 @@
 {% set name = "prometheus_flask_exporter" %}
-{% set version = "0.22.4" %}
-{% set sha256 = "959b69f1e740b6736ea53fe5f28dc2ab6229b2ebeade6582b3dbb5d74c7d58e4" %}
+{% set version = "0.23.2" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://github.com/rycus86/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
+  sha256: 4782e92a77083d7a769d2199fabf1de6fc85d2563a81f4cfa30b9f492a743d16
 
 build:
+  skip: true  # [py<38]
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  skip: true  # [py<36]
 
 requirements:
   host:
@@ -25,14 +24,21 @@ requirements:
     - python
     - flask
     - prometheus_client
+  run_constrained:
+    - werkzeug>=3.0.1
+    - zipp>=3.19.1
 
 test:
+  source_files:
+    - tests
   imports:
     - prometheus_flask_exporter
   requires:
     - pip
+    - pytest
   commands:
     - pip check
+    - pytest -v tests
 
 about:
   home: https://github.com/rycus86/prometheus_flask_exporter
